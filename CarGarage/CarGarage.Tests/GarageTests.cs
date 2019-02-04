@@ -25,7 +25,9 @@ namespace CarGarage.Tests
             var xxx = new Garage();
             // Act
             xxx.AddCar();
+            xxx.AddCar(); //add 2
             xxx.RemoveCar();
+            xxx.RemoveCar(); //remove 2
             // Assert
             Assert.Empty(xxx.TheGarage);
             
@@ -39,19 +41,41 @@ namespace CarGarage.Tests
             var xxx = new Garage();
             // Act
             int numCars = 4;
-            for (int i = 0; i < numCars; i++) xxx.AddCar(); //add numCars cars
-            for (int p = 0; p < numCars; p++) xxx.TheGarage[p].Accelerate(); //uses gas
-
-            xxx.FuelAllCars();
-
-            int totalFuel = 0; 
-            foreach (Car theCar in xxx.TheGarage)
+            int numCarsThatUsedFuel = 0;
+            for (int i = 0; i < numCars; i++)
             {
-                totalFuel += theCar.GasLevel;
+                xxx.AddCar(); //add a car
+                xxx.TheGarage[i].ToggleEngine();//start the engine
+                xxx.TheGarage[i].Accelerate();//consume some fuel
+                if (xxx.TheGarage[i].GetFuelLevel() != 100) numCarsThatUsedFuel++; //make sure fuel was used
             }
+            if (numCars != numCarsThatUsedFuel) Assert.Equal(numCars, numCarsThatUsedFuel);
+            else
+            {
+                xxx.FuelAllCars();
 
-            // Assert
-            Assert.Equal(numCars * 100, totalFuel);
+                int totalFuel = 0;
+                foreach (Car theCar in xxx.TheGarage)
+                {
+                    totalFuel += theCar.GetFuelLevel();
+                }
+
+                // Assert
+                Assert.Equal(numCars * 100, totalFuel);
+            }
+        }
+        [Fact]
+        public void shouldRemoveCarByMakeAndModel()
+        {
+            var xxx = new Garage();
+
+            xxx.AddCar("Ford", "F150");
+            xxx.AddCar("Ford", "Mustang");
+            xxx.AddCar("Volvo", "S60R");
+
+            xxx.RemoveCarByMakeAndModel("Ford", "Mustang");
+
+            Assert.Equal(2, xxx.TheGarage.Count);
         }
 
         [Fact]

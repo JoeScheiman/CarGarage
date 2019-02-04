@@ -13,6 +13,7 @@ namespace CarGarage.Tests
             // Arrange
             var firstCar = new Car();
             // Act
+            if (!firstCar.IsStarted()) firstCar.ToggleEngine();//Can't accelerate without engine running
             firstCar.Accelerate();
             // Assert
             Assert.Equal(10, firstCar.Speed);
@@ -25,6 +26,7 @@ namespace CarGarage.Tests
             // Arrange
             var car = new Car();
             // Act
+            if (!car.IsStarted()) car.ToggleEngine();
             car.Accelerate();
             // Assert
             Assert.Equal(90, car.GasLevel);
@@ -79,6 +81,72 @@ namespace CarGarage.Tests
             car.ToggleEngine();
             // Assert
             Assert.False(car.CarStarted);
+        }
+        [Fact]
+        public void getCarMake()
+        {
+            //Arrange
+            var car = new Car("Ford", "F-150");
+
+            //Act
+            string theMake = car.GetMake();
+
+            //Assert
+            Assert.Equal("Ford", theMake);
+        }
+        [Fact]
+        public void getCarModel()
+        {
+            //Arrange
+            var car = new Car("Ford", "F-150");
+
+            //Act
+            string theModel = car.GetModel();
+
+            //Assert
+            Assert.Equal("F-150", theModel);
+        }
+        [Fact]
+        public void getCarFuelLevel()
+        {
+            //Arrange
+            var car = new Car("Ford", "F-150");
+
+            //Act
+            car.ToggleEngine(); //Cannot accelerate and use fuel if engine isn't running
+            car.Accelerate();
+            int fuel = car.GetFuelLevel();
+
+            //Assert
+            Assert.Equal(90, fuel);
+        }
+        [Fact]
+        public void getCarSpeed()
+        {
+            //Arrange
+            var car = new Car("Ford", "F-150");
+
+            //Act
+            if (!car.IsStarted()) car.ToggleEngine();
+            car.Accelerate();
+            int speed = car.GetSpeed();
+
+            //Assert
+            Assert.Equal(10, speed);
+        }
+        [Fact]
+        public void getEngineStartedStatus()
+        {
+            //Arrange
+            var car = new Car("Ford", "F-150");
+
+            //Act
+            if (!car.IsStarted()) car.ToggleEngine();
+            car.Accelerate();
+            int speed = car.GetSpeed();
+
+            //Assert
+            Assert.Equal(10, speed);
         }
     }
 }
