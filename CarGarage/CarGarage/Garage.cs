@@ -16,11 +16,41 @@ namespace CarGarage
         public void AddCar()
         {
             //Car newCar = new Car();
-            this.TheGarage.Add(new Car());
+            TheGarage.Add(new Car());
 
         }
+        public void RemoveCar()
+        {
+            if (TheGarage.Count >= 1)
+            {
+                TheGarage.RemoveAt(TheGarage.Count - 1);
+                if (TheGarage.Count != TheGarage.Capacity)
+                {
+                    TheGarage.TrimExcess();
+                }
+            }
+        }
+        public void FuelAllCars()
+        {
+            foreach (Car someCar in TheGarage)
+            {
+                someCar.AddFuel();
+            }
+        }
+        /*public bool RemoveCar()
+        {
+            if (TheGarage.Count >= 1)
+            {
+                TheGarage.RemoveAt(TheGarage.Count);
+                return (true);
+            }
+            else
+            {
+                return (false);
+            }
+        }*/
 
-        
-        
+
+
     }
 }

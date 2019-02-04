@@ -14,7 +14,7 @@ namespace CarGarage
         public Car()
         {
             Speed = 0;
-            GasLevel = 100;
+            GasLevel = FullTank;
             CarStarted = false;
         }
         public Car(int startGasLevel)

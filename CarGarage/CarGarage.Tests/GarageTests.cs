@@ -22,8 +22,13 @@ namespace CarGarage.Tests
         {
             // Tests RemoveCar() method
             // Arrange
+            var xxx = new Garage();
             // Act
+            xxx.AddCar();
+            xxx.RemoveCar();
             // Assert
+            Assert.Empty(xxx.TheGarage);
+            
         }
 
         [Fact]
@@ -31,8 +36,22 @@ namespace CarGarage.Tests
         {
             // Tests FuelAllCars() method
             // Arrange
+            var xxx = new Garage();
             // Act
+            int numCars = 4;
+            for (int i = 0; i < numCars; i++) xxx.AddCar(); //add numCars cars
+            for (int p = 0; p < numCars; p++) xxx.TheGarage[p].Accelerate(); //uses gas
+
+            xxx.FuelAllCars();
+
+            int totalFuel = 0; 
+            foreach (Car theCar in xxx.TheGarage)
+            {
+                totalFuel += theCar.GasLevel;
+            }
+
             // Assert
+            Assert.Equal(numCars * 100, totalFuel);
         }
 
         [Fact]
